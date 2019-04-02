@@ -31,8 +31,8 @@ cond_redirect() {
 # What test case should be run?
 if [ "$1" == "docker-full" ]; then
     echo_process "Starting Docker based test..."
-    cond_redirect docker stop install-test
-    cond_redirect docker rm install-test
+    cond_redirect docker stop install-test || true
+    cond_redirect docker rm install-test || true
     cond_redirect docker build --tag openhabian/openhabian-bats .
     cond_redirect docker run -it openhabian/openhabian-bats bash -c 'bats -r -f "unit-." .'
     cond_redirect docker run --name "install-test" --privileged -d openhabian/openhabian-bats
